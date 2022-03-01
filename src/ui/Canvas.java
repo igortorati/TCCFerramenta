@@ -204,11 +204,13 @@ public class Canvas extends JComponent{
 						break;
 					case START:
 						if(node != null) {
+							if(node == matrix.getEndNode()) matrix.setEnd((Node) null);
 							matrix.setStart(node);
 						}
 						break;
 					case DESTINATION:
 						if(node != null) {
+							if(node == matrix.getStartNode()) matrix.setStart((Node) null);
 							matrix.setEnd(node);
 						}
 						break;

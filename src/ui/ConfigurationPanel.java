@@ -139,7 +139,7 @@ public class ConfigurationPanel extends JPanel{
 
 	private void addStartButton() {
 		add(Box.createRigidArea(new Dimension(getWidth(), 10)));
-		startButton = new JButton("Start");
+		startButton = new JButton("Buscar Caminho");
 		startButton.setAlignmentX(this.CENTER_ALIGNMENT);
 		startButton.addActionListener(new ActionListener() {
 			@Override

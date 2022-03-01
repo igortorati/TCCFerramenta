@@ -20,6 +20,7 @@ public class AStar implements Algorithm{
 	@Override
 	public boolean searchPath(Matrix matrix, Node start, Node end) {
 		if(!parameters.isRunning()) return false;
+		if(start == null || end == null) return false;
 		setup(matrix, start, end);
 		while(!priorityQueue.isEmpty() && parameters.isRunning()){
 			Node current = priorityQueue.remove();

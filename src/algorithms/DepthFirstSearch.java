@@ -23,6 +23,7 @@ public class DepthFirstSearch implements Algorithm{
 	@Override
 	public boolean searchPath(Matrix matrix, Node start, Node end) {
 		if(!parameters.isRunning()) return false;
+		if(start == null || end == null) return false;
 		setup();
 		this.matrix = matrix;
 		stack = new Stack<Node>();

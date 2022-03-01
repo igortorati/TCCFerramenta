@@ -19,6 +19,7 @@ public class BreadthFirstSearch implements Algorithm{
 	@Override
 	public boolean searchPath(Matrix matrix, Node start, Node end) {
 		if(!parameters.isRunning()) return false;
+		if(start == null || end == null) return false;
 		setup();
 		System.out.println("Breadth-first");
 		queue = new LinkedList<Node>();

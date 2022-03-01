@@ -57,9 +57,13 @@ public class Orchestrator {
 		}
 		if(source.getStartNode() != null) {
 			destination.setStart(destination.getNode(source.getStartPosition()));
+		} else {
+			destination.setStart((Node) null);
 		}
 		if(source.getEndNode() != null) {
 			destination.setEnd(destination.getNode(source.getEndPosition()));
+		} else {
+			destination.setEnd((Node) null);
 		}
 	}
 	
@@ -170,7 +174,7 @@ public class Orchestrator {
 				.setPrettyPrinting()
 				.create();
 		try (Writer writer = new OutputStreamWriter(new FileOutputStream(completePath + "\\\\results.json"), Charset.forName("UTF-8"))) {
-            writer.write(new Gson().toJson(results));
+            writer.write(gson.toJson(results));
         } catch (Exception e) {
             e.printStackTrace();
         }

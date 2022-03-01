@@ -20,6 +20,7 @@ public class BestFirstSearch implements Algorithm{
 	@Override
 	public boolean searchPath(Matrix matrix, Node start, Node end) { //Terminar
 		if(!parameters.isRunning()) return false;
+		if(start == null || end == null) return false;
 		setup(matrix, start, end);
 		while(!priorityQueue.isEmpty() && parameters.isRunning()){
 			Node current = priorityQueue.remove();
@@ -31,6 +32,7 @@ public class BestFirstSearch implements Algorithm{
 					neighbour.setParent(current);
 					neighbour.setCost(current.getCost() + edge.getWeight());
 					if(neighbour == end) {
+						neighbour.setVisited(true);
 						totalCost = neighbour.getCost();
 						return true;
 					} else {
