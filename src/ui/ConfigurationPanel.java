@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -137,8 +138,8 @@ public class ConfigurationPanel extends JPanel{
 	}
 
 	private void addStartButton() {
+		add(Box.createRigidArea(new Dimension(getWidth(), 10)));
 		startButton = new JButton("Start");
-		startButton.setBorder(new EmptyBorder(10, 10, 10, 10));
 		startButton.setAlignmentX(this.CENTER_ALIGNMENT);
 		startButton.addActionListener(new ActionListener() {
 			@Override
@@ -179,8 +180,8 @@ public class ConfigurationPanel extends JPanel{
 	}
 
 	private void addCleanMatrixButton() {
+		add(Box.createRigidArea(new Dimension(getWidth(), 10)));
 		cleanMatrixButton = new JButton("Limpar Matriz");
-		cleanMatrixButton.setBorder(new EmptyBorder(10, 10, 10, 10));
 		cleanMatrixButton.setAlignmentX(this.CENTER_ALIGNMENT);
 		cleanMatrixButton.addActionListener(new ActionListener() {
 			@Override
@@ -193,8 +194,8 @@ public class ConfigurationPanel extends JPanel{
 	}
 	
 	private void addSaveMatrixButton() {
+		add(Box.createRigidArea(new Dimension(getWidth(), 10)));
 		saveMatrixButton = new JButton("Salvar Matriz");
-		saveMatrixButton.setBorder(new EmptyBorder(10, 10, 10, 10));
 		saveMatrixButton.setAlignmentX(this.CENTER_ALIGNMENT);
 		ConfigurationPanel configPanel = this;
 		saveMatrixButton.addActionListener(new ActionListener() {
@@ -216,8 +217,8 @@ public class ConfigurationPanel extends JPanel{
 	}
 	
 	private void addLoadMatrixButton() {
+		add(Box.createRigidArea(new Dimension(getWidth(), 10)));
 		loadMatrixButton = new JButton("Carregar Matriz");
-		loadMatrixButton.setBorder(new EmptyBorder(10, 10, 10, 10));
 		loadMatrixButton.setAlignmentX(this.CENTER_ALIGNMENT);
 		ConfigurationPanel configPanel = this;
 		loadMatrixButton.addActionListener(new ActionListener() {
@@ -240,8 +241,8 @@ public class ConfigurationPanel extends JPanel{
 	}
 	
 	private void addSaveResultsButton() {
+		add(Box.createRigidArea(new Dimension(getWidth(), 10)));
 		saveResults = new JButton("Salvar Resultados");
-		saveResults.setBorder(new EmptyBorder(10, 10, 10, 10));
 		saveResults.setAlignmentX(this.CENTER_ALIGNMENT);
 		saveResults.addActionListener(new ActionListener() {
 			@Override
