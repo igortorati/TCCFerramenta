@@ -203,7 +203,12 @@ public class Orchestrator {
 	}
 	
 	private void populateLoadedData(SaveData loadedData) {
-		System.out.println("Loaded: " + loadedData.matrix);
+		System.out.println(loadedData.parameters.getCellSize());
+		parameters.setCellSize(loadedData.parameters.getCellSize());
+		configurationPanel.updateCellSize();
+		for(PathfindingInfo pi : pathfindingInfos) {
+			pi.canvas.matrixCellSizeUpdate();
+		}
 		
 		Matrix loadedMatrix = new Matrix();
 		loadedMatrix.setDimensions(loadedData.matrix.getRows(), loadedData.matrix.getColumns());
@@ -217,10 +222,7 @@ public class Orchestrator {
 		
 		loadedMatrix.setStart(loadedMatrix.getNode(loadedData.matrix.getStartPosition()));
 		loadedMatrix.setEnd(loadedMatrix.getNode(loadedData.matrix.getEndPosition()));
-		
-		System.out.println("generated from loaded: " + loadedMatrix);
-		
-		parameters.setCellSize(loadedData.parameters.getCellSize());
+				
 		
 		for(PathfindingInfo pi : pathfindingInfos) {
 			pi.canvas.setParameters(parameters);

@@ -253,4 +253,9 @@ public class ConfigurationPanel extends JPanel{
 		
 		add(saveResults);
 	}
+	
+	public void updateCellSize() {
+		cellSizeSlider.setValue(parameters.getCellSize());
+		cellSizeLabel.setText(getCellSizeLabel());
+	}
 }
