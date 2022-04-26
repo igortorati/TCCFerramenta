@@ -1,11 +1,11 @@
 package algorithms;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 
-import evaluators.Evaluator;
+import evaluators.BestFirstEvaluator;
+import evaluators.IEvaluator;
 import graph.Edge;
 import graph.Matrix;
 import graph.Node;
@@ -15,7 +15,7 @@ public class BestFirstSearch implements Algorithm{
 	private PriorityQueue<Node> priorityQueue;
 	private double totalCost = 0;
 	private Parameters parameters;
-	private Evaluator evaluator;
+	private IEvaluator evaluator;
 	
 	@Override
 	public boolean searchPath(Matrix matrix, Node start, Node end) { //Terminar
@@ -36,7 +36,7 @@ public class BestFirstSearch implements Algorithm{
 						totalCost = neighbour.getCost();
 						return true;
 					} else {
-						double temp = evaluator.calculateHeuristic(neighbour, end);
+						double temp = evaluator.getHX(neighbour, end);
 						neighbour.setFCost(temp);
 						if(!priorityQueue.contains(neighbour)) {
 							priorityQueue.add(neighbour);
@@ -51,11 +51,11 @@ public class BestFirstSearch implements Algorithm{
 
 	private void setup(Matrix matrix, Node start, Node end) {
 		if(!parameters.isRunning()) return;
-		evaluator = new Evaluator();
+		evaluator = new BestFirstEvaluator();
 		priorityQueue = new PriorityQueue<Node>(new NodeComparatorFCost());
 		start.setCost(0);
 		priorityQueue.add(start);
-		start.setFCost(evaluator.calculateHeuristic(start, end));
+		start.setFCost(evaluator.getHX(start, end));
 	}
 
 	@Override

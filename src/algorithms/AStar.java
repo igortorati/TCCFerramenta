@@ -2,10 +2,15 @@ package algorithms;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 
-import evaluators.Evaluator;
+import evaluators.AStarEvaluator;
+import evaluators.BestFirstEvaluator;
+import evaluators.DijkstraEvaluator;
+import evaluators.IEvaluator;
 import graph.Edge;
 import graph.Matrix;
 import graph.Node;
@@ -15,7 +20,13 @@ public class AStar implements Algorithm{
 	private PriorityQueue<Node> priorityQueue;
 	private double totalCost = 0;
 	private Parameters parameters;
-	private Evaluator evaluator;
+	private IEvaluator evaluator;
+	private static Map<String, IEvaluator> heuristicToUse = new HashMap<>();
+	{
+		heuristicToUse.put("Heurística A*", new AStarEvaluator());
+		heuristicToUse.put("Heurística Best-first", new BestFirstEvaluator());
+		heuristicToUse.put("Heurística Dijkstra", new DijkstraEvaluator());
+	}
 	
 	@Override
 	public boolean searchPath(Matrix matrix, Node start, Node end) {
@@ -29,10 +40,15 @@ public class AStar implements Algorithm{
 				List<Edge> edges = current.getEdges();
 				for(Edge edge : edges) {
 					Node neighbour = edge.getNeighbor(current);
-					double costToNode = current.getCost() + edge.getWeight();
-					double temp = costToNode + evaluator.calculateHeuristic(neighbour, end); //g(x) + h(x)
+					double costToNode = evaluator.getGX(current, edge);
+					double temp = evaluator.getFX(current, neighbour, end, edge);
 					if(temp < neighbour.getCost()) {
-						neighbour.setCost(costToNode);
+						if(evaluator instanceof BestFirstEvaluator) {
+							neighbour.setCost(temp); //Best-first Heuristic
+						} else {
+							neighbour.setCost(costToNode); //AStar and Dijkstra
+						}
+						
 						neighbour.setFCost(temp);
 						neighbour.setParent(current);
 						if(!neighbour.getVisited()) {
@@ -41,23 +57,44 @@ public class AStar implements Algorithm{
 					}
 				}
 			} else {
-				totalCost = end.getCost();
+				totalCost = 0;
+				if(evaluator instanceof BestFirstEvaluator) {
+					setTotalCostForBestFirstHeuristic(end); //Best-first Heuristic
+				} else {
+					totalCost = end.getCost(); //AStar Heuristic and Dijkstra
+				}
 				return true;
 			}
 		}
 		return false;
 	}
 
+	private void setTotalCostForBestFirstHeuristic(Node end) {
+		Node current = end;
+		while(current.getParent() != null) {
+			List<Edge> edges = current.getEdges();
+			Edge edgeToParent = edges.get(0);
+			for(Edge e : edges) {
+				if(e.getNeighbor(current.getParent()) == current) {
+					edgeToParent = e;
+					break;
+				}
+			}
+			totalCost += edgeToParent.getWeight();
+			current = current.getParent();
+		}
+	}
+	
 	private void setup(Matrix matrix, Node start, Node end) {
 		if(!parameters.isRunning()) return;
 		priorityQueue = new PriorityQueue<Node>(new NodeComparatorFCost());
-		evaluator = new Evaluator();
+		evaluator = heuristicToUse.get(parameters.getAStarHeuristic());
 		for(int row = 0; row < matrix.getRows(); row++) {
 			for(int column = 0; column < matrix.getColumns(); column++) {
 				Node node = matrix.getNode(row, column);
 				if(node.getWalkable()) {
 					if(node == start) {
-						node.setHeuristicCost(evaluator.calculateHeuristic(node, end));
+						node.setHeuristicCost(evaluator.getHX(node, end));
 						node.setFCost(0 + node.getHeuristicCost());
 						priorityQueue.add(start);
 					} else {

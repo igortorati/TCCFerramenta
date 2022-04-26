@@ -4,6 +4,7 @@ import graph.Edge;
 import graph.Node;
 
 public interface IEvaluator {
-	public double calculateHeuristic(Node current, Node end);
-	public float calculateCost(Node current, Edge edge, Node start, Node end);
+	public double getHX(Node current, Node end);
+	public double getGX(Node current, Edge edge);
+	public double getFX(Node current, Node neighbour, Node end, Edge edge);
 }

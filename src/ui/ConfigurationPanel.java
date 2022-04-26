@@ -1,15 +1,16 @@
 package ui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -39,6 +40,8 @@ public class ConfigurationPanel extends JPanel{
 	private JButton saveMatrixButton;
 	private JButton loadMatrixButton;
 	private JButton saveResults;
+	private JLabel aStarHeuristicLabel;
+	private JComboBox aStarHeuristicComboBox;
 	
 	public ConfigurationPanel(Parameters parameters) {
 		super();
@@ -52,6 +55,7 @@ public class ConfigurationPanel extends JPanel{
 
 	private void addConfigurationComponents() {
 		addRadioOptions();
+		addAStarHeuristicComboBox();
 		addStartButton();
 		addCleanMatrixButton();
 		addCellSizeSlider();
@@ -257,5 +261,29 @@ public class ConfigurationPanel extends JPanel{
 	public void updateCellSize() {
 		cellSizeSlider.setValue(parameters.getCellSize());
 		cellSizeLabel.setText(getCellSizeLabel());
+	}
+	
+	public void addAStarHeuristicComboBox() {
+		String[] options = {"Heurística A*", "Heurística Best-first", "Heurística Dijkstra"};
+		aStarHeuristicComboBox = new JComboBox(options);
+		aStarHeuristicComboBox.setMaximumSize(new Dimension(150, 30));
+		add(Box.createRigidArea(new Dimension(getWidth(), 10)));
+		aStarHeuristicComboBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JComboBox cb = (JComboBox)e.getSource();
+		        String heuristicName = (String)cb.getSelectedItem();
+		        parameters.setAStarHeuristic(heuristicName);
+			}
+		});
+		aStarHeuristicComboBox.setSelectedIndex(0);
+		parameters.setAStarHeuristic(options[0]);
+		aStarHeuristicComboBox.setVisible(true);
+		aStarHeuristicLabel = new JLabel("Heurística do algoritmo A*:");
+		aStarHeuristicLabel.setBorder(new EmptyBorder(10, 10, 0, 10));
+		aStarHeuristicLabel.setAlignmentX(this.CENTER_ALIGNMENT);
+		add(aStarHeuristicLabel);
+		add(Box.createRigidArea(new Dimension(getWidth(), 10)));
+		add(aStarHeuristicComboBox);
 	}
 }

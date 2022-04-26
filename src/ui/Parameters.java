@@ -9,6 +9,7 @@ public class Parameters{
 	private boolean running = false;
 	private Mode mode = Mode.EDIT_MODE;
 	private Pencil pencil = Pencil.OBSTACLE;
+	protected String aStarHeuristic;
 	
 	public int getAnimationDelay() {
 		return animationDelay;
@@ -48,6 +49,14 @@ public class Parameters{
 	
 	public void setPencil(Pencil pencil) {
 		this.pencil = pencil;
+	}
+	
+	public String getAStarHeuristic() {
+		return aStarHeuristic;
+	}
+	
+	public void setAStarHeuristic(String aStarHeuristic) {
+		this.aStarHeuristic = aStarHeuristic;
 	}
 	
 	@Override
